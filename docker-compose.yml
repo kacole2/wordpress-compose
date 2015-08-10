@@ -1,0 +1,31 @@
+#Created by Kendrick Coleman of the EMC {code} Team and Licensed under MIT.
+# 
+# This wordpress installation is meant to be deployed to a Docker Swarm Cluster
+# The affinity rule will demoonstrate how the wordpress container can use the
+#   mysql database that lives on another host. This demonstrates libNetwork
+#   creating the link between hosts and containers
+#
+# docker-compose up -d
+--- 
+wordpress: 
+  image: wordpress
+  net: "bridged"
+  ports:
+    - "8080:80"
+  environment: 
+    - "WORDPRESS_DB_USER=admin"
+    - "WORDPRESS_DB_PASSWORD=87654321"
+    - "WORDPRESS_DB_NAME=wordpress"
+    - "affinity:container!=*wpmysql*"
+  restart: always
+  links:
+    - mysql
+mysql: 
+  image: tutum/mysql
+  net: "bridged"
+  ports:
+    - "3306:3306"
+  environment: 
+    - "MYSQL_PASS=87654321"
+    - "affinity:container!=*wordpress*"
+  restart: always
