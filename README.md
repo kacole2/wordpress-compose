@@ -4,7 +4,7 @@ wordpress-compose
 Deploy a Wordpress + MySQL setup with persistent data using [rexray](https://github.com/emccode/rexray) with a single command
 
 ## Description
-This docker-compose file will bring up a Wordpress + MySQL pair on a single host. Utilizing [rexray](https://github.com/emccode/rexray) we can persist that data across multiple hosts that is compatible on multiple storage platforms. (Future version will use Docker Machine & libNetwork to have the containers spread across hosts)
+This docker-compose file will bring up a Wordpress + MySQL pair on a single host. Utilizing [rexray](https://github.com/emccode/rexray) we can persist that data across multiple hosts that is compatible on multiple storage platforms. (Future version will use Docker Machine for easier deployment & libNetwork to have the containers spread across hosts)
 
 ## Requirements
 * [rexray](https://github.com/emccode/rexray) (as of v0.1.150807) requires CentOS7. This was completed using [AWS ami-96a818fe](http://thecloudmarket.com/image/ami-96a818fe--centos-7-x86-64-2014-09-29-ebs-hvm-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-d2a117ba-2)
@@ -14,7 +14,7 @@ This docker-compose file will bring up a Wordpress + MySQL pair on a single host
 ## Installation
 Provision 2+ CentOS 7 hosts and issue the following commands on each:
 ```
-$ sudo su
+$ sudo su -
 # yum update -y
 # yum install numactl libaio wget -y
 # curl -sSL https://get.docker.com/ | sh
@@ -28,10 +28,10 @@ $ sudo su
 # echo 'AWS_SECRET_KEY=mysecretkey' >> /etc/environment
 # echo 'AWS_ACCESS_KEY=myaccesskey' >> /etc/environment
 
-# systemctl daemon-reload
-# systemctl restart rexray.service
+# systemctl enable rexray.service
+# systemctl start rexray.service
 # exit
-$ sudo su
+$ sudo su -
 ```
 
 At this point you should be able to do a `docker info` to see Docker information and `rexray get-instance` that shows what storage platforms are available to rexray.
