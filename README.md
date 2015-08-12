@@ -78,21 +78,49 @@ Install the latest version of [docker-compose](https://github.com/docker/compose
 ```
 
 ## Provision Volumes for Persistent Data
-The data that will persist between containers that are destroyed and created must live on the storage platform. Using rexray, we will create two new volumes to store MySQL and Wordpress data. Each of these volumes is 20GB in size. You can size them however you want and depending on the platform (EBS in this case) you can specify the backing type and IOPS needed. The most important variable is the name given to the volume because that must be passed to the `docker run...` command.
+The data that will persist between containers that are destroyed and created must live on the storage platform. Using rexray, we will create two new volumes to store MySQL and Wordpress data. Each of these volumes is 20GB in size. You can size them however you want and depending on the platform (EBS in this case) you can specify the backing type and IOPS needed. The most important variable is the name given to the volume because that must be passed to the `docker run...` command. Only run this command on 1 host
 ```
 # rexray new-volume --size=20 --volumename="wpdata"
 # rexray new-volume --size=20 --iops=300 --volumetype="ssd" --volumename="mysqldata"
 ```
 
+From a different host you can run `rexray get-volume` to see the new volume is accessible between hosts.
+
 ## Start Containers with Docker Compose
-We will grab this `docker-compose.yml` file to bring up the containers on the same host.
+We will grab this `docker-compose.yml` file to bring up the containers on the same host. Only run this on a single host.
 ```
-# curl -L https://raw.githubusercontent.com/kacole2/wordpress-compose/master/docker-compose.yml > /wordpress-compose/docker-compose.yml
-# cd /wordpress-compose
-# docker-compose up
+# mkdir /home/wordpress-compose
+# curl -L https://raw.githubusercontent.com/kacole2/wordpress-compose/master/docker-compose.yml > /home/wordpress-compose/docker-compose.yml
+# cd /home/wordpress-compose
+# docker-compose up -d
 ```
 
-## Start Containers Manually
+## Manipulate Some Data!
+You should now be able to access the Wordpress Installation screen by accessing port 8080 on the host. Complete the Wordpress Installation.
+![Complete the Wordpress Installation](https://s3.amazonaws.com/kennyonetime/wordpress-compose01.png)
+Login to the Wordpress Admin side, Create A New Post and Click on Publish
+![Click on Publish](https://s3.amazonaws.com/kennyonetime/wordpress-compose03.png)
+Visit the site and you should now see a new blog post. We now have data!
+![Visit the site](https://s3.amazonaws.com/kennyonetime/wordpress-compose04.png)
+
+## Kill the containers and restart them somewhere else
+We are going to kill the containers and restart them on a different host
+```
+# docker-compose kill
+```
+
+On a different host we will perform the same steps as before
+```
+# mkdir /home/wordpress-compose
+# curl -L https://raw.githubusercontent.com/kacole2/wordpress-compose/master/docker-compose.yml > /home/wordpress-compose/docker-compose.yml
+# cd /home/wordpress-compose
+# docker-compose up -d
+```
+
+Now you should be able to access your Wordpress site from a different IP address with all the data still intact. We are achieving data persistence!
+![Visit the site](https://s3.amazonaws.com/kennyonetime/wordpress-compose04.png)
+
+### Start Containers Manually
 If you don't want to use Docker Compose, you can start the containers manually with:
 ```
 # docker run -d --name wpmysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD="87654321" --volume-driver=rexray -v mysqldata:/var/lib/mysql mysql:latest
