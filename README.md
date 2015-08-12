@@ -98,8 +98,10 @@ We will grab this `docker-compose.yml` file to bring up the containers on the sa
 ## Manipulate Some Data!
 You should now be able to access the Wordpress Installation screen by accessing port 8080 on the host. Complete the Wordpress Installation.
 ![Complete the Wordpress Installation](https://s3.amazonaws.com/kennyonetime/wordpress-compose01.png)
+
 Login to the Wordpress Admin side, Create A New Post and Click on Publish
 ![Click on Publish](https://s3.amazonaws.com/kennyonetime/wordpress-compose03.png)
+
 Visit the site and you should now see a new blog post. We now have data!
 ![Visit the site](https://s3.amazonaws.com/kennyonetime/wordpress-compose04.png)
 
