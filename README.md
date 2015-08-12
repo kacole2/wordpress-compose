@@ -104,7 +104,7 @@ If you don't want to use Docker Compose, you can start the containers manually w
 Create a fork of the project into your own reposity. Make all your necessary changes and create a pull request with a description on what was added or removed and details explaining the changes in lines of code. If approved, project owners will merge it.
 
 ## Licensing
-ecs-dockerswarm is freely distributed under the [MIT License](http://opensource.org/licenses/MIT). See LICENSE for details.
+wordpress-compose is freely distributed under the [MIT License](http://opensource.org/licenses/MIT). See LICENSE for details.
 
 ## Support
 Please file bugs and issues at the Github issues page. For more general discussions you can contact the EMC Code team on [Slack](http://community.emccode.com/) or tagged with **EMC** on [Stackoverflow.com](https://stackoverflow.com). The code and documentation are released with no warranties or SLAs and are intended to be supported through a community driven process.
