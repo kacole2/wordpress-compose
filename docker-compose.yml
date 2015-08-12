@@ -1,31 +1,31 @@
 #Created by Kendrick Coleman of the EMC {code} Team and Licensed under MIT.
 # 
 # This wordpress installation is meant to be deployed to a Docker Swarm Cluster
-# The affinity rule will demoonstrate how the wordpress container can use the
-#   mysql database that lives on another host. This demonstrates libNetwork
-#   creating the link between hosts and containers
+# This will demonstrate how to use data persistence across hosts in a swarm cluser
+#   Use rexray to create two volumes called `mysqldata` and `wpdata`. This datastore
+#   will persist while containers are created and destroyed across hosts
 #
 # docker-compose up -d
 --- 
-wordpress: 
-  image: wordpress
-  net: "bridged"
-  ports:
-    - "8080:80"
-  environment: 
-    - "WORDPRESS_DB_USER=admin"
-    - "WORDPRESS_DB_PASSWORD=87654321"
-    - "WORDPRESS_DB_NAME=wordpress"
-    - "affinity:container!=*wpmysql*"
-  restart: always
-  links:
-    - mysql
 mysql: 
-  image: tutum/mysql
-  net: "bridged"
+  image: mysql
   ports:
     - "3306:3306"
   environment: 
-    - "MYSQL_PASS=87654321"
-    - "affinity:container!=*wordpress*"
+    - "MYSQL_ROOT_PASSWORD=87654321"
+  volume_driver: rexray
+  volumes:
+    - "mysqldata:/var/lib/mysql"
   restart: always
+wordpress: 
+  image: wordpress
+  ports:
+    - "8080:80"
+  environment: 
+    - "WORDPRESS_DB_PASSWORD=87654321"
+  volume_driver: rexray
+  volumes:
+    - "wpdata:/var/www/html"
+  restart: always
+  links:
+    - mysql
