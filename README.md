@@ -107,4 +107,4 @@ Create a fork of the project into your own reposity. Make all your necessary cha
 wordpress-compose is freely distributed under the [MIT License](http://opensource.org/licenses/MIT). See LICENSE for details.
 
 ## Support
-Please file bugs and issues at the Github issues page. For more general discussions you can contact the EMC Code team on [Slack](http://community.emccode.com/) or tagged with **EMC** on [Stackoverflow.com](https://stackoverflow.com). The code and documentation are released with no warranties or SLAs and are intended to be supported through a community driven process.
+Please file bugs and issues at the Github issues page.
