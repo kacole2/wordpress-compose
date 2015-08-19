@@ -14,9 +14,9 @@ This docker-compose file will bring up a Wordpress + MySQL pair on a single host
 ## Installation
 Provision 2+ CentOS 7 hosts and issue the following commands on each:
 ```
-$ sudo su -
+$ sudo su
 # yum update -y
-# yum install numactl libaio wget -y
+# yum install numactl libaio wget device-mapper-event device-mapper-event-devel -y
 # curl -sSL https://get.docker.com/ | sh
 # service docker start
 # chkconfig docker on
@@ -31,7 +31,7 @@ $ sudo su -
 # systemctl enable rexray.service
 # systemctl start rexray.service
 # exit
-$ sudo su -
+$ sudo su
 ```
 
 At this point you should be able to do a `docker info` to see Docker information and `rexray get-instance` that shows what storage platforms are available to rexray.
